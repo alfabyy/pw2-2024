@@ -1,4 +1,4 @@
-@extends('admin.template.master')
+@extends('pasien.template.master')
 
 @section('content')
 <div class="content-wrapper">
@@ -32,7 +32,7 @@
                         </div>
                         <div class="card-body">
                             <h2 class="text-center">Data Pasien</h2>
-                            <a href="#"><button class="btn btn-primary mb-1">Tambah Data</button></a>
+                            <a href="{{ route('pasien.create') }}"><button class="btn btn-primary mb-1">Tambah Data</button></a>
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -56,8 +56,17 @@
                                         <td>{{ $p->tgl_lahir }}</td>
                                         <td>{{ $p->gender }}</td>
                                         <td>{{ $p->email }}</td>
-                                        <td>{{ $p->alamat }}</td>
-                                        <td><button class="btn btn-warning"><a href="#" class="text-white">Edit</a></button> | <button type="button" class="btn btn-danger"><a href="#" class="text-white">Delete</a></button></td>
+                                        @method('DELETE')
+                                        <td>
+                                            <a href="{{ route('pasien.show', $p->id) }}" class="btn btn-info">Read</a> | 
+                                            <a href="{{ route('pasien.edit', $p->id) }}" class="btn btn-warning">Update</a> | 
+                                            <form action="{{ route('pasien.destroy', $p->id) }}" method="POST" style="display: inline;">
+                                             @csrf
+                                             @method('DELETE')
+                                            <button type="submit" class="btn btn-danger" 
+                                                onclick="return confirm('Are you sure you want to delete this kelurahan?')">Delete</button>
+                                            </form>
+                                        </td>
                                     </tbody>
                                     @endforeach
                             </table>
